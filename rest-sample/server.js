@@ -31,6 +31,18 @@ app.put('/users/:id', (req, res)=>{
     res.send("User with Id: "+ user_id + "Get updated with username: "+ username);
 })
 
+app.patch('/users/:id', (req, res)=>{
+    user_id = req.params.id;
+    username = req.body.username;
+
+    res.send("User with Id: "+ user_id + "Get updated with username: "+ username);
+})
+
+app.delete('/users/:id', (req, res)=>{
+    let user_id = req.params.id;
+    res.send("Delete user from table where user_id = "+ user_id);
+})
+
 app.listen(3000, ()=>{
     console.log("server started at 3000");
 })
