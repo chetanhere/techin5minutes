@@ -31,7 +31,16 @@ app.get('/', (req, res)=>{
 })
 
 app.get('/users', (req, res)=>{
-    res.send("List of all users")
+
+    sql = `select * from users`;
+    db.query(sql,(err, results)=>{
+        if(err){
+            throw err;
+        }
+        else{
+            res.status(200).send(results);
+        }
+    })
 })
 
 app.get('/users/:id', (req, res)=>{
@@ -41,9 +50,19 @@ app.get('/users/:id', (req, res)=>{
 
 app.post('/users', (req, res)=>{
     let username = req.body.username;
-    let pass = req.body.password;
-    console.log(username, pass);
-    res.send("User created!!");
+    let mobile = req.body.mobile;
+    let data = {username, mobile};
+    sql = `INSERT INTO users SET ?`
+    db.query(sql, data, (err, results)=>{
+        if(err){
+            throw err;
+        }
+        else{
+            res.status(201).send(results);
+        }
+
+    })
+
 })
 
 app.put('/users/:id', (req, res)=>{
