@@ -45,7 +45,16 @@ app.get('/users', (req, res)=>{
 
 app.get('/users/:id', (req, res)=>{
     let user_id = req.params.id;
-    res.send("Fetch the user with ID:" + user_id);
+    sql = `select * from users where uid=${user_id}`;
+    db.query(sql, (err, results)=>
+    {
+        if(err){
+            throw err;
+        }
+        else{
+            res.status(200).send(results);
+        }
+    })
 })
 
 app.post('/users', (req, res)=>{
@@ -75,8 +84,19 @@ app.put('/users/:id', (req, res)=>{
 app.patch('/users/:id', (req, res)=>{
     user_id = req.params.id;
     username = req.body.username;
+    data = [username, user_id];
+    sql = `update users set username=? where uid=?`;
+    db.query(sql, data, (err, results)=>
+    {
+        if(err){
+            throw err;
+        }
+        else{
+            res.status(201).send(results);
+        }
+    })
 
-    res.send("User with Id: "+ user_id + "Get updated with username: "+ username);
+    //res.send("User with Id: "+ user_id + "Get updated with username: "+ username);
 })
 
 app.delete('/users/:id', (req, res)=>{
