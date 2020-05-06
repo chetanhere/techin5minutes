@@ -101,7 +101,16 @@ app.patch('/users/:id', (req, res)=>{
 
 app.delete('/users/:id', (req, res)=>{
     let user_id = req.params.id;
-    res.send("Delete user from table where user_id = "+ user_id);
+    sql =`delete from users where uid = ${user_id}`;
+    db.query(sql, (err, results)=>{
+        if(err){
+            throw err;
+        }
+        else{
+            res.status(200).send(results);
+        }
+    })
+    //res.send("Delete user from table where user_id = "+ user_id);
 })
 
 app.listen(3000, ()=>{
